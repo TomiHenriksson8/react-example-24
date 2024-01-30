@@ -1,20 +1,24 @@
-import React from 'react'
+
 import { MediaItem } from '../types/DBTypes';
 
-const MediaRow = (props: {mediaItem: MediaItem}) => {
-  const item = props.mediaItem;
+interface MediaRowProps {
+  mediaItem: MediaItem;
+  onItemSelected: (item: MediaItem) => void; 
+}
+
+const MediaRow: React.FC<MediaRowProps> = ({ mediaItem, onItemSelected }) => {
   return (
-    <tr key={item.media_id} className="media-row">
+    <tr className="media-row" onClick={() => onItemSelected(mediaItem)}>
       <td>
-        <img src={item.thumbnail} alt={item.title} />
+        <img src={mediaItem.thumbnail} alt={mediaItem.title} />
       </td>
-      <td>{item.title}</td>
-      <td>{item.description}</td>
-      <td>{new Date(item.created_at).toLocaleString('fi-FI')}</td>
-      <td>{item.filesize}</td>
-      <td>{item.media_type}</td>
+      <td>{mediaItem.title}</td>
+      <td>{mediaItem.description}</td>
+      <td>{new Date(mediaItem.created_at).toLocaleString('fi-FI')}</td>
+      <td>{mediaItem.filesize}</td>
+      <td>{mediaItem.media_type}</td>
     </tr>
   );
 };
 
-export default MediaRow
+export default MediaRow;
