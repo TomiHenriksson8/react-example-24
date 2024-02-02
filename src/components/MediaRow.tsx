@@ -1,22 +1,30 @@
+import {MediaItem} from '../types/DBTypes';
 
-import { MediaItem } from '../types/DBTypes';
+const MediaRow = (props: {
+  item: MediaItem;
+  setSelectedItem: (item: MediaItem | undefined) => void;
+}) => {
+  const {item, setSelectedItem}  = props;
 
-interface MediaRowProps {
-  mediaItem: MediaItem;
-  onItemSelected: (item: MediaItem) => void; 
-}
-
-const MediaRow: React.FC<MediaRowProps> = ({ mediaItem, onItemSelected }) => {
   return (
-    <tr className="media-row" onClick={() => onItemSelected(mediaItem)}>
+    <tr className="media-row">
       <td>
-        <img src={mediaItem.thumbnail} alt={mediaItem.title} />
+        <img src={item.thumbnail} alt={item.title} />
       </td>
-      <td>{mediaItem.title}</td>
-      <td>{mediaItem.description}</td>
-      <td>{new Date(mediaItem.created_at).toLocaleString('fi-FI')}</td>
-      <td>{mediaItem.filesize}</td>
-      <td>{mediaItem.media_type}</td>
+      <td>{item.title}</td>
+      <td>{item.description}</td>
+      <td>{new Date(item.created_at).toLocaleString('fi-FI')}</td>
+      <td>{item.filesize}</td>
+      <td>{item.media_type}</td>
+      <td>
+        <button
+          onClick={() => {
+            setSelectedItem(item);
+          }}
+        >
+          View
+        </button>
+      </td>
     </tr>
   );
 };
