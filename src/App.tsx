@@ -4,10 +4,13 @@ import Profile from "./views/Profile";
 import Single from "./views/Single";
 import Upload from "./views/Upload";
 import Layout from "./views/Layout";
+import Example from "./components/Example";
 
 const App = () => {
 
   return (
+    <>
+    <Example />
     <Router basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -18,6 +21,7 @@ const App = () => {
         </Route>
       </Routes>
     </Router>
+    </>
   );
 };
 
