@@ -1,8 +1,5 @@
 const Upload = () => {
-  return (
-    <div>Upload</div>
-  )
-}
-
+  return <h2>Upload page</h2>
+};
 
 export default Upload;
