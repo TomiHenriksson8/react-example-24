@@ -1,6 +1,15 @@
 import {Link, Outlet} from "react-router-dom";
+import { useUserContext } from "../hooks/ContextHooks";
+
 
 const Layout = () => {
+
+  const { user ,handleAutoLogin } = useUserContext();
+
+  if (!user) {
+    handleAutoLogin();
+  }
+
   return (
     <>
       <header>
@@ -10,18 +19,26 @@ const Layout = () => {
             <li>
               <Link to="/">Home</Link>
             </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/upload">Upload</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/logout">Logout</Link>
-            </li>
+            {user && (
+              // Show these links only if the user is logged in
+              <>
+                <li>
+                  <Link to="/profile">Profile</Link>
+                </li>
+                <li>
+                  <Link to="/upload">Upload</Link>
+                </li>
+                <li>
+                  <Link to="/logout">Logout</Link>
+                </li>
+              </>
+            )}
+            {!user && (
+              // Show the Login link only if the user is not logged in
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+            )}
           </ul>
         </nav>
       </header>

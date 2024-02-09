@@ -1,22 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
-import { useUser } from "../hooks/apiHooks";
-import { UserResponse } from "../types/MessageTypes";
+import { useUserContext } from "../hooks/ContextHooks";
 
 const Profile = () => {
 
-  const [user, setUser] = useState<UserResponse['user'] | null>(null);
-  const {getUserByToken} = useUser();
-
-
-  useEffect(() => {
-    const getUser = async () => {
-      const token = localStorage.getItem('token');
-      const userResponse = await getUserByToken(token!);
-      setUser(userResponse.user);
-    }
-    getUser();
-  }, []);
+  const { user } = useUserContext();
 
   return (
     <>
