@@ -15,28 +15,27 @@ const Layout = () => {
       <header>
         <h1>My app</h1>
         <nav>
-          <ul>
+          <ul className="flex justify-end bg-slate-950">
             <li>
-              <Link to="/">Home</Link>
+              <Link className="block text-slate-50 text-center  p-4" to="/">Home</Link>
             </li>
             {user && (
-              // Show these links only if the user is logged in
               <>
                 <li>
-                  <Link to="/profile">Profile</Link>
+                  <Link className="block text-slate-50 text-center  p-4" to="/profile">Profile</Link>
                 </li>
                 <li>
-                  <Link to="/upload">Upload</Link>
+                  <Link className="block text-slate-50 text-center  p-4" to="/upload">Upload</Link>
                 </li>
                 <li>
-                  <Link to="/logout">Logout</Link>
+                  <Link className="block text-slate-50 text-center  p-4" to="/logout">Logout</Link>
                 </li>
               </>
             )}
             {!user && (
               // Show the Login link only if the user is not logged in
               <li>
-                <Link to="/login">Login</Link>
+                <Link className="block text-slate-50 text-center  p-4" to="/login">Login</Link>
               </li>
             )}
           </ul>
