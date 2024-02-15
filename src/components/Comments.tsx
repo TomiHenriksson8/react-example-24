@@ -1,34 +1,49 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from "../hooks/formHooks";
 import { useUserContext } from "../hooks/ContextHooks";
 import { useCommentStore } from '../store';
 import { MediaItemWithOwner } from '../types/DBTypes';
+import { useComment } from '../hooks/apiHooks';
 
 const Comments = ({item}: {item : MediaItemWithOwner}) => {
   const { user } = useUserContext();
-  const { comments, addComment } = useCommentStore();
+  const { comments, addComment, setComments } = useCommentStore();
   const formRef = useRef<HTMLFormElement>(null);
+  const { getCommentsByMediaId, postComment } = useComment();
 
   const initValues = { comment_text: '' };
 
 
 
   const doComment = async () => {
-    if (!user) {
+    const token = localStorage.getItem('token');
+    if (!user || !token) {
       return;
     }
-    addComment({
-      comment_text: inputs.comment_text,
-      media_id: item.media_id,
-      user_id: user.user_id,
-      username: user.username,
-    })
+    try {
+      await postComment(inputs.comment_text, item.media_id, token);
+      await getComments()
+    } catch (e) {
+      console.error((e as Error).message);
+    }
     if (formRef.current) formRef.current.reset();
   };
 
   const { handleSubmit, handleInputChange, inputs } = useForm(doComment, initValues);
 
-  console.log(comments)
+  const getComments = async () => {
+    try {
+      const comments =  await getCommentsByMediaId(item.media_id);
+      setComments(comments);
+    } catch (error) {
+      console.error(error);
+      setComments([]);
+    }
+  };
+
+  useEffect(() => {
+    getComments();
+  }, []);
 
   return (
     <>
@@ -51,12 +66,47 @@ const Comments = ({item}: {item : MediaItemWithOwner}) => {
       </form>
     </>
       )}
-      <h3 className='text-3x1'>Comments</h3>
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment.comment_id}>{comment.username}: {comment.comment_text}</li>
-        ))}
-      </ul>
+      {comments.length > 0 && (
+
+<>
+
+  <h3 className="text-xl">Comments</h3>
+
+  <ul>
+
+    {comments.map((comment) => (
+
+      <li key={comment.comment_id}>
+
+        <div className="rounded-md border border-slate-200 bg-slate-800 p-3 text-slate-100">
+
+          <span className="font-bold text-slate-200">
+
+            On{' '}
+
+            {new Date(comment.created_at!).toLocaleDateString('fi-FI')}{' '}
+
+          </span>
+
+          <span className="font-bold text-slate-200">
+
+            {comment.username} wrote:
+
+          </span>
+
+          <span className="ml-2">{comment.comment_text}</span>
+
+        </div>
+
+      </li>
+
+    ))}
+
+  </ul>
+
+</>
+
+)}
     </>
   );
 };
