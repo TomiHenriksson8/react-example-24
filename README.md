@@ -1,4 +1,4 @@
-Open [this link in browser](https://users.metropolia.fi/~tomihenr/hybrid-week4/) to see the app in action.
+Open [this link in browser](https://users.metropolia.fi/~tomihenr/hybrid-week5/zustand/) to see the app in action.
 
 # React + TypeScript + Vite
 
